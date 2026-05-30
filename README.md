@@ -61,50 +61,19 @@ A key feature of this project is its ability to prevent hallucinations by respon
 10. If no relevant context is found, the system returns:
     - **"Not Found in Document"**
 
----
-User Uploads Document (PDF/DOCX/TXT)
-                ↓
-Extract Text from Document
-                ↓
-Chunk Text into Smaller Sections
-                ↓
-Generate Embeddings for Each Chunk
-                ↓
-Store Embeddings in Vector Database (FAISS/ChromaDB)
-                ↓
-═══════════════════════════════════════
-                ↓
-User Asks a Question
-                ↓
-Convert Question into Embedding
-                ↓
-Perform Similarity Search in Vector Database
-                ↓
-Check if Relevant Context is Found
-                ↓
-
-        ┌───────────────┐
-        │ Context Found?│
-        └───────┬───────┘
-                │
-      ┌─────────┴─────────┐
-      │                   │
-     YES                  NO
-      │                   │
-      ↓                   ↓
-
-Retrieve Relevant Chunks    Return "Not Found in Document"
-      ↓                   │
-      ↓                   │
-Send Context + Question    │
-to LLM                     │
-      ↓                   │
-Generate Answer           │
-      ↓                   │
-      └─────────┬─────────┘
-                ↓
-Display Response to User
-                ↓
+**Document Upload**
+→ Text Extraction
+→ Text Chunking
+→ Embedding Generation
+→ Vector Database Storage
+→ User Question
+→ Query Embedding
+→ Similarity Search
+→ Context Found?
+    ├─ Yes → Retrieve Chunks → LLM → Generate Answer
+    └─ No  → Not Found in Document
+→ Display Response
+→ Langfuse Monitoring                ↓
 Langfuse Monitoring
 (Traces, Tokens, Latency, Cost)
 
