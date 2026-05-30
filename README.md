@@ -62,73 +62,52 @@ A key feature of this project is its ability to prevent hallucinations by respon
     - **"Not Found in Document"**
 
 ---
+User Uploads Document (PDF/DOCX/TXT)
+                ↓
+Extract Text from Document
+                ↓
+Chunk Text into Smaller Sections
+                ↓
+Generate Embeddings for Each Chunk
+                ↓
+Store Embeddings in Vector Database (FAISS/ChromaDB)
+                ↓
+═══════════════════════════════════════
+                ↓
+User Asks a Question
+                ↓
+Convert Question into Embedding
+                ↓
+Perform Similarity Search in Vector Database
+                ↓
+Check if Relevant Context is Found
+                ↓
 
-## Flowchart
+        ┌───────────────┐
+        │ Context Found?│
+        └───────┬───────┘
+                │
+      ┌─────────┴─────────┐
+      │                   │
+     YES                  NO
+      │                   │
+      ↓                   ↓
 
-┌─────────────────────┐
-│ User Uploads File   │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Extract Text        │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Chunk Document      │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Generate Embeddings │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Vector Database     │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ User Question       │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Similarity Search   │
-└──────────┬──────────┘
-           │
-           ▼
-      ┌───────────┐
-      │ Context ? │
-      └─────┬─────┘
-        Yes │ No
-            │
-            ▼
-┌─────────────────────┐     ┌─────────────────────────┐
-│ Retrieve Chunks     │     │ Not Found in Document   │
-└──────────┬──────────┘     └───────────┬─────────────┘
-           │                            │
-           ▼                            │
-┌─────────────────────┐                 │
-│ Send to LLM         │                 │
-└──────────┬──────────┘                 │
-           │                            │
-           ▼                            │
-┌─────────────────────┐                 │
-│ Generate Answer     │◄────────────────┘
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Display Response    │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Langfuse Tracking   │
-└─────────────────────┘
+Retrieve Relevant Chunks    Return "Not Found in Document"
+      ↓                   │
+      ↓                   │
+Send Context + Question    │
+to LLM                     │
+      ↓                   │
+Generate Answer           │
+      ↓                   │
+      └─────────┬─────────┘
+                ↓
+Display Response to User
+                ↓
+Langfuse Monitoring
+(Traces, Tokens, Latency, Cost)
+
 **Technology Stack**
 Frontend
 Streamlit
